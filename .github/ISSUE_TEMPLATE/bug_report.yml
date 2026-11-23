@@ -1,0 +1,68 @@
+name: Bug report
+description: Something behaves differently from what it should
+labels: ['bug', 'needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. For a pattern that matches or rejects the wrong thing, the
+        single most useful thing you can give us is the exact input string. That maps
+        straight onto a test case.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: The smallest code that reproduces it
+      description: Include the exact input string and the result you got.
+      render: ts
+      placeholder: |
+        import { escapeRegExp } from '@henzyd/regex-kit';
+        escapeRegExp('a.b'); // got ..., expected ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part
+      options:
+        - A pattern matched something it should not
+        - A pattern missed something it should match
+        - A helper returned the wrong value
+        - Catastrophic backtracking or slow input
+        - Types or typings
+        - Packaging, import or require
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: '@henzyd/regex-kit version'
+      placeholder: '0.1.0'
+    validations:
+      required: true
+
+  - type: input
+    id: runtime
+    attributes:
+      label: Runtime and module system
+      description: Node, Bun, Deno or browser, its version, and whether you use import or require.
+      placeholder: 'Node 22.12, ESM'
+    validations:
+      required: true

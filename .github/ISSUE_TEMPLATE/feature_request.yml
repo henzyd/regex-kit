@@ -1,0 +1,48 @@
+name: Feature request
+description: Suggest a pattern, helper or change in behaviour
+labels: ['enhancement', 'needs triage']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: |
+        What are you trying to do that is awkward or impossible today? Describe the
+        situation rather than the solution, so there is room to find a better one.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you have in mind
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of request
+      options:
+        - A new pattern
+        - A new helper function
+        - A change to an existing pattern
+        - Types or typings
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Concrete examples
+      description: |
+        Paste real strings that should match and real strings that should not. The
+        near-misses matter most: they say where the boundary is.
+      render: text
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you have tried or considered
+      description: Including whether an existing export nearly does it.

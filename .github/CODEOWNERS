@@ -1,0 +1,6 @@
+# Default reviewer for everything.
+* @henzyd
+
+# Release plumbing and the published surface are where a mistake is hardest to undo.
+/.github/workflows/  @henzyd
+/package.json        @henzyd
