@@ -1,0 +1,121 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A force-push or a rapid second push should cancel the run it superseded.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Format, lint and types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+  test:
+    name: Tests on ${{ matrix.os }} / Node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # One platform failing must not hide the others.
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node: [22, 24]
+        include:
+          # Patterns are plain JavaScript, but line endings and path handling are not.
+          - os: macos-latest
+            node: 24
+          - os: windows-latest
+            node: 24
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+  build:
+    name: Build and package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Check the package metadata
+        run: npm run lint:package
+
+      - name: Pack
+        run: npm pack --ignore-scripts
+
+      - name: Upload the tarball
+        uses: actions/upload-artifact@v7
+        with:
+          name: package-tarball
+          path: '*.tgz'
+          if-no-files-found: error
+          retention-days: 14
+
+  # The tooling needs a recent Node, but consumers only need the declared floor. So the
+  # tarball is built once above and installed here on each supported runtime.
+  smoke:
+    name: Install smoke test on Node ${{ matrix.node }}
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['20.19', 22, 24]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: package-tarball
+          path: tarball
+
+      - name: Install the tarball and load it from ESM and CommonJS
+        run: node .github/scripts/smoke.mjs tarball/*.tgz
