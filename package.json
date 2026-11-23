@@ -1,0 +1,83 @@
+{
+  "name": "@henzyd/regex-kit",
+  "version": "0.1.0",
+  "description": "A toolkit of tested, composable regular expressions and helpers for JavaScript and TypeScript.",
+  "type": "module",
+  "license": "MIT",
+  "author": "henzyd",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henzyd/regex-kit.git"
+  },
+  "homepage": "https://github.com/henzyd/regex-kit#readme",
+  "bugs": {
+    "url": "https://github.com/henzyd/regex-kit/issues"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsdown",
+    "watch": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:package": "publint --strict && attw --pack . --profile node16",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "smoke": "node .github/scripts/smoke.mjs",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run lint:package && npm run smoke",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "regex",
+    "regexp",
+    "regular-expression",
+    "pattern",
+    "validation",
+    "typescript"
+  ],
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.0.0",
+    "eslint": "^10.15.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.10.1",
+    "publint": "^0.3.25",
+    "tsdown": "^0.23.7",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.74.0",
+    "vitest": "^5.1.1"
+  }
+}
