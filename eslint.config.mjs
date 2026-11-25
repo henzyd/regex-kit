@@ -36,6 +36,9 @@ export default tseslint.config(
       ],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'off',
+      // A validation library matches control characters and invisible Unicode on purpose.
+      'no-control-regex': 'off',
+      'no-irregular-whitespace': 'off',
       eqeqeq: ['error', 'always', { null: 'ignore' }],
       'no-console': 'error',
       'prefer-const': 'error',
@@ -50,7 +53,7 @@ export default tseslint.config(
 
   {
     // Repository scripts are Node programs, not part of the published package.
-    files: ['.github/scripts/**/*.mjs'],
+    files: ['.github/scripts/**/*.mjs', 'scripts/**/*.mjs'],
     languageOptions: {
       globals: { process: 'readonly', console: 'readonly' }
     },
