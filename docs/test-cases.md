@@ -602,7 +602,7 @@ npm run docs:cases    # regenerate this file after changing test/cases/
 ### `isJwt`
 
 - **No extra arguments**
-  - ✅ accepts: `"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ"… (155 chars)` · `"eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZH"… (514 chars)`
+  - ✅ accepts: `"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ"… (91 chars)` · `"eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZH"… (514 chars)`
   - ❌ rejects: `"a.b.c"` · `"eyJhbGciOiJIUzI1NiJ9.eyJhIjoxfQ"` · `"eyJhbGciOiJIUzI1NiJ9.eyJhIjoxfQ.sig=nat"` · `".."` · `"eyJhbGciOiJub25lIn0.eyJzdWIiOiIxIn0."` · `"eyJ.eyJ."` · `"eyJ.eyJ.sig.extra"`
 - **Arguments: `{ allowEmptySignature: true }`**
   - ✅ accepts: `"eyJhbGciOiJub25lIn0.eyJzdWIiOiIxIn0."`

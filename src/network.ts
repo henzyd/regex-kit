@@ -513,15 +513,18 @@ export function isTelUri(value: unknown): boolean {
   const s = str(value, 256);
   if (s === null) return false;
   const params = '(?:;[A-Za-z0-9-]+(?:=[^;\\s]+)?)*';
-  const global = new RegExp(`^tel:\\+[\\d().-]*\\d[\\d().-]*${params}$`, 'i');
-  const local = new RegExp(`^tel:[\\d().-]*\\d[\\d().-]*;phone-context=[^;\\s]+${params}$`, 'i');
+  // At least one digit, with visual separators around it. Each repeat starts with a
+  // digit, so no character can be matched two ways and backtracking stays linear.
+  const num = '(?:[().-]*\\d)+[().-]*';
+  const global = new RegExp(`^tel:\\+${num}${params}$`, 'i');
+  const local = new RegExp(`^tel:${num};phone-context=[^;\\s]+${params}$`, 'i');
   return global.test(s) || local.test(s);
 }
 
 export function isSmsUri(value: unknown): boolean {
   const s = str(value, 512);
   if (s === null) return false;
-  return /^sms:\+?[\d().-]*\d[\d().-]*(?:,\+?[\d().-]*\d[\d().-]*)*(?:;[A-Za-z-]+=[^;,?\s]*)*(?:\?[^\s#]*)?$/i.test(
+  return /^sms:\+?(?:[().-]*\d)+[().-]*(?:,\+?(?:[().-]*\d)+[().-]*)*(?:;[A-Za-z-]+=[^;,?\s]*)*(?:\?[^\s#]*)?$/i.test(
     s
   );
 }

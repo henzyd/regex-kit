@@ -91,7 +91,7 @@ export function isDecimal(value: unknown, options?: DecimalOptions): boolean {
 
 export function isFloat(value: unknown, options?: { min?: number; max?: number }): boolean {
   const s = numStr(value, 400);
-  if (s === null || !/^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/.test(s)) return false;
+  if (s === null || !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(s)) return false;
   const n = Number(s);
   if (!Number.isFinite(n)) return false;
   const o = opts(options);

@@ -138,7 +138,7 @@ function compileFormat(format: string): { re: RegExp; order: string[] } | null {
         }[part]!;
       }
       if (!/^[\s/.-]*$/.test(part)) ok = false;
-      return part.replace(/[.\-/]/g, '\\$&');
+      return part.replace(/[\\^$.*+?()[\]{}|/-]/g, '\\$&');
     })
     .join('');
   const kinds = order.map((t) => (t[0] === 'Y' ? 'y' : t[0] === 'M' ? 'm' : 'd'));
