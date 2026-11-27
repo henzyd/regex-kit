@@ -1,7 +1,7 @@
 {
   "name": "@henzyd/regex-kit",
   "version": "0.1.0",
-  "description": "A toolkit of tested, composable regular expressions and helpers for JavaScript and TypeScript.",
+  "description": "Tested validators for web, app and server data: email, URL, IP, IBAN, dates, HTTP headers, national IDs and more. No dependencies.",
   "type": "module",
   "license": "MIT",
   "author": "henzyd",
@@ -36,6 +36,7 @@
   "files": [
     "dist",
     "docs",
+    "!docs/test-cases.md",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
@@ -57,15 +58,25 @@
     "test:watch": "vitest",
     "smoke": "node .github/scripts/smoke.mjs",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run lint:package && npm run smoke",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "docs:cases": "node scripts/update-cases.mjs"
   },
   "keywords": [
+    "validation",
+    "validator",
     "regex",
     "regexp",
-    "regular-expression",
-    "pattern",
-    "validation",
-    "typescript"
+    "email",
+    "url",
+    "ip",
+    "iban",
+    "uuid",
+    "phone",
+    "forms",
+    "http",
+    "security",
+    "typescript",
+    "zero-dependency"
   ],
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
